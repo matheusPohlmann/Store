@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Store.API.Data;
 using Store.API.Models;
 
 namespace Store.API.Controllers
@@ -12,40 +13,24 @@ namespace Store.API.Controllers
     [Route("api/[controller]")]
     public class ProdutoController : ControllerBase
     {
+        private readonly DataContext _context;
 
-        public IEnumerable<Produto> _produto = new Produto[] {
-            new Produto() {
-                Id = 1,
-                Name = "Caneca preta",
-                Description = "Esta é uma caneca preta",
-                Price = 25.5,
-                ImageURL = "image.png"
-            },
-            new Produto() {
-                Id = 2,
-                Name = "Caneca vermelha",
-                Description = "Esta é uma caneca vermelha",
-                Price = 26.75,
-                ImageURL = "image2.png"
-            }
-                
-        };
-
-        public ProdutoController()
+        public ProdutoController(DataContext context)
         {
+            _context = context;
             
         }
 
         [HttpGet]
         public IEnumerable<Produto> Get(int id)
         {
-            return _produto;
+            return _context.Produtos;
         }
 
         [HttpGet("{id}")]
-        public IEnumerable<Produto> GetById(int id)
+        public Produto GetById(int id)
         {
-            return _produto.Where(prod => prod.Id == id);
+            return _context.Produtos.FirstOrDefault(prod => prod.Id == id);
         }
 
         [HttpPost]
