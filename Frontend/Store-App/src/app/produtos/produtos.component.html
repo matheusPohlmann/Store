@@ -1,8 +1,47 @@
-<h1>Produtos de Components</h1>
-
-<div *ngFor="let prod of produtos">
-  <p><b>Nome Produto:</b> {{prod.name}}</p>
-  <p><b>Preço:</b> {{prod.price}}</p>
-  <hr>
+<div class="container-fluid mb-2 mt-3">
+  <h1>Produtos</h1>
 </div>
+
+<div class="form-inline col">
+  <div class="form-group mb-4 row w-100 mr-1 ml-1">
+
+    <input
+      type="text"
+      class="col form-control mr-2 rounded-pill"
+      placeholder="Search"
+      [(ngModel)]="filter"
+    >
+
+	  <button class="btn btn-outline-primary rounded-circle"><i class="fa-solid fa-magnifying-glass"></i></button>
+  </div>
+</div>
+
+<div class="container-fluid" *ngIf="produtos && produtos.length">
+  <div class="row" >
+	<div class="col-sm-6 col-md-6 col-xl-3" *ngFor="let prod of produtosFiltereds">
+	  <div class="card mb-4 rounded-3">
+      <div class="card-img-top p-3">
+        <img src="/assets/{{prod.imageURL}}" class="w-100" alt="">
+      </div>
+      <div class="card-body">
+        <h5 class="card-title">{{prod.name}}</h5>
+
+        <div class="col mb-2">
+        <h6 class="card-subtitle mb-2 text-muted">R$: {{prod.price}}</h6>
+        <p class="card-text">{{prod.description}}</p>
+        </div>
+        <div class="col">
+        <a href="#" class="col mb-2 btn btn-primary">Adicionar ao Carrinho</a>
+        <a href="#" class="col btn btn-secondary">Comprar Agora</a>
+        </div>
+
+      </div>
+	  </div>
+	</div>
+  </div>
+</div>
+<div class="container-fluid" *ngIf="!produtos.length">
+  <h1 class="text-center mt-4">Nenhum produto encontrado!</h1>
+</div>
+
 
