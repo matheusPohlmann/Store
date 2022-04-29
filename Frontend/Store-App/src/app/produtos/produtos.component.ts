@@ -1,15 +1,18 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { Produto } from '../models/Produto';
+import { ProdutoService } from '../services/produto.service';
 
 @Component({
   selector: 'app-produtos',
   templateUrl: './produtos.component.html',
-  styleUrls: ['./produtos.component.scss']
+  styleUrls: ['./produtos.component.scss'],
+  // providers: [ProdutoService]
 })
 export class ProdutosComponent implements OnInit {
 
-  public produtos: any = [];
-  public produtosFiltereds: any = [];
+  public produtos: Produto[] = [];
+  public produtosFiltereds: Produto[] = [];
   private _filter: string = '';
 
   public get filter() {
@@ -21,28 +24,28 @@ export class ProdutosComponent implements OnInit {
     this.produtosFiltereds = this.filter ? this.filterProducts(this.filter) : this.produtos;
   }
 
-  filterProducts(filterFor: string): any {
+  public filterProducts(filterFor: string): Produto[] {
     filterFor = filterFor.toLocaleLowerCase();
     return this.produtos.filter(
       (x: any) => x.name.toLocaleLowerCase().indexOf(filterFor) !== -1
     );
   }
 
-  constructor(private http: HttpClient) { }
+  constructor(private produtoService: ProdutoService) { }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.getProdutos();
   }
 
   public getProdutos(): void {
 
-    this.http.get('https://localhost:5001/api/produtos').subscribe(
-      response => {
-        this.produtos = response;
+    this.produtoService.getAllProdutos().subscribe({
+      next: (data: Produto[]) => {
+        this.produtos = data;
         this.produtosFiltereds = this.produtos;
       },
-      error => console.log(error)
-    );
+      error: (error: any) => console.log(error)
+    });
   }
 
 }
