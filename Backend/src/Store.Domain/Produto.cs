@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Store.API.Models
+namespace Store.Domain
 {
     public class Produto
     {

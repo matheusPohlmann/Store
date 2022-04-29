@@ -3,13 +3,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Store.API.Data;
+using Store.Persistence;
 
-namespace Store.API.Data.Migrations
+namespace Store.Persistence.Migrations
 {
-    [DbContext(typeof(DataContext))]
-    [Migration("20220425181512_init")]
-    partial class init
+    [DbContext(typeof(StoreContext))]
+    [Migration("20220429004953_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -17,7 +17,7 @@ namespace Store.API.Data.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "5.0.2");
 
-            modelBuilder.Entity("Store.API.Models.Produto", b =>
+            modelBuilder.Entity("Store.Domain.Produto", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()

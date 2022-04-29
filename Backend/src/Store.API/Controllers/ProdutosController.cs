@@ -4,8 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Store.API.Data;
-using Store.API.Models;
+using Store.Persistence;
+using Store.Domain;
+using Store.Application.Contratos;
+using Microsoft.AspNetCore.Http;
 
 namespace Store.API.Controllers
 {
@@ -13,42 +15,95 @@ namespace Store.API.Controllers
     [Route("api/[controller]")]
     public class ProdutosController : ControllerBase
     {
-        private readonly DataContext _context;
+        private readonly IProdutoService _produtoService;
 
-        public ProdutosController(DataContext context)
+        public ProdutosController(IProdutoService produtoService)
         {
-            _context = context;
-            
+            _produtoService = produtoService;
         }
 
         [HttpGet]
-        public IEnumerable<Produto> Get(int id)
+        public async Task<IActionResult> GetAll()
         {
-            return _context.Produtos;
+            try
+            {
+                var produtos = await _produtoService.GetAllProdutos();
+                if (produtos == null) return NotFound("Nenhum produto encontrado!");
+
+                return Ok(produtos);
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
+                    $"Erro ao tentar recuperar produtos. Erro: {e.Message}");
+            }
         }
 
         [HttpGet("{id}")]
-        public Produto GetById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
-            return _context.Produtos.FirstOrDefault(prod => prod.Id == id);
+            try
+            {
+                var produto = await _produtoService.GetProdutosById(id);
+                if (produto == null) return NotFound("Nenhum produto encontrado!");
+
+                return Ok(produto);
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
+                    $"Erro ao tentar recuperar produtos. Erro: {e.Message}");
+            }
         }
 
         [HttpPost]
-        public string Post()
+        public async Task<IActionResult> Post(Produto model)
         {
-            return "Exemplo de Post";
+            try
+            {
+                var produto = await _produtoService.AddProdutos(model);
+                if (produto == null) return BadRequest("Erro ao tentar adicionar produto.");
+
+                return Ok(produto);
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
+                    $"Erro ao tentar adicionar produtos. Erro: {e.Message}");
+            }
         }
 
         [HttpPut("{id}")]
-        public string Put(int id)
+        public async Task<IActionResult> Put(int id, Produto model)
         {
-            return $"Exemplo de Put com id = {id}";
+            try
+            {
+                var produto = await _produtoService.UpdateProdutos(id, model);
+                if (produto == null) return BadRequest("Erro ao tentar atualizar produto.");
+
+                return Ok(produto);
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
+                    $"Erro ao tentar atualizar produtos. Erro: {e.Message}");
+            }
         }
 
         [HttpDelete("{id}")]
-        public string Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            return $"Exemplo de Delete com id = {id}";
+            try
+            {
+                return await _produtoService.DeleteProdutos(id) ?
+                    Ok("Deletado") :
+                    BadRequest("Produto não deletado");
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
+                    $"Erro ao tentar remover produtos. Erro: {e.Message}");
+            }
         }
 
     }

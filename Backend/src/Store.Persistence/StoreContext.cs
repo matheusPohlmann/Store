@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Store.API.Models;
+using Store.Domain;
 
-namespace Store.API.Data
+namespace Store.Persistence
 {
-    public class DataContext : DbContext
+    public class StoreContext : DbContext
     {
-        public DataContext(DbContextOptions<DataContext> options) : base(options) { }
+        public StoreContext(DbContextOptions<StoreContext> options) : base(options) { }
         public DbSet<Produto> Produtos { get; set; }
     }
 }
