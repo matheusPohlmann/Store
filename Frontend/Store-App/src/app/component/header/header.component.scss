@@ -1,0 +1,15 @@
+
+@media only screen and (min-width: 992px){
+  .form-control {
+    border-radius: 3px;
+    width: 600px;
+    margin-left: 20px;
+  }
+}
+
+@media only screen and (max-width: 991px) {
+  .form-control{
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }
+}

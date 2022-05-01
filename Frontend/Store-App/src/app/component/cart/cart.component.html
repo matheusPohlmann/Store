@@ -1,0 +1,79 @@
+<ng-container *ngIf="products.length != 0">
+  <div class="container">
+    <div class="card-table">
+      <!-- <div class="cart-product"> -->
+        <table class="table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Nome</th>
+              <th>Imagem</th>
+              <th>Descrição</th>
+              <th>Preço Unt.</th>
+              <th>Quantidade</th>
+              <th>Preço Total</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of products; let i = index">
+              <td>{{i+1}}</td>
+              <td>{{item.name}}</td>
+              <td><img style="width: 120px;" src="/assets/{{item.imageURL}}" alt=""></td>
+              <td style="width: 20%;">{{item.description}}</td>
+              <th >{{item.price}}</th>
+              <td >{{item.quantity}}</td>
+              <td >{{item.total}}</td>
+              <td>
+                <button (click)="removeItem(item)" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="4" class=""><strong class="m-auto">Total: R$ {{grandTotal}}</strong></td>
+              <td scope="col"><button (click)="emptyCart()" class="btn btn-danger">Esvaziar carrinho</button></td>
+              <td><button routerLink="/produtos" class="btn btn-primary">Comprar mais</button></td>
+              <td><button class="btn btn-success">Comprar</button></td>
+            </tr>
+          </tfoot>
+        </table>
+      <!-- </div> -->
+    </div>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="products.length == 0">
+  <div class="container">
+    <div class="card">
+      <h5 class="card-title">Meu Carrinho</h5>
+    </div>
+    <div class="center">
+      <img
+        src="https://rukminim1.flixcart.com/www/800/800/promos/16/05/2019/d438a32e-765a-4d8b-b4a6-520b560971e8.png?q=90"
+        alt="">
+      <h4>Seu carrinho está vazio!</h4>
+      <h6>Adicione produtos</h6>
+      <button routerLink="/produtos" class="btn btn-primary">Ir para produtos</button>
+    </div>
+  </div>
+</ng-container>
+
+<div id="myModal" class="modal fade" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog modal-confirm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="icon-box">
+          <i class="material-icons"></i>
+        </div>
+        <h4 class="modal-title w-100">Awesome!</h4>
+      </div>
+      <div class="modal-body">
+        <p class="text-center">Your booking has been confirmed. Check your email for detials.</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-success btn-block" data-dismiss="modal">OK</button>
+      </div>
+    </div>
+  </div>
+</div>

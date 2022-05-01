@@ -1,0 +1,23 @@
+<div class="container-fluid mt-4">
+  <div class="container-fluid">
+    <div class="row" >
+    <div class="col-sm-6 col-md-6 col-xl-3" *ngFor="let prod of productList | filter:searchKey:'name'">
+      <div class="card mb-4 rounded-3">
+        <div class="card-img-top p-3">
+          <img src="/assets/{{prod.imageURL}}" class="w-100" alt="">
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">{{prod.name}}</h5>
+          <div class="col mb-2">
+            <h6 class="card-subtitle mb-2 text-muted">R$: {{prod.price}}</h6>
+            <p class="card-text">{{prod.description}}</p>
+          </div>
+          <div class="col">
+            <button class="col mb-2 btn btn-primary" (click)=addtocart(prod)>Adicionar ao Carrinho</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+</div>
