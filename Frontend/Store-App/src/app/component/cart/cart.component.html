@@ -1,5 +1,5 @@
 <ng-container *ngIf="products.length != 0">
-  <div class="container">
+  <div class="container mt-4">
     <div class="card-table">
       <!-- <div class="cart-product"> -->
         <table class="table">
@@ -7,9 +7,9 @@
             <tr>
               <th>#</th>
               <th>Nome</th>
-              <th>Imagem</th>
-              <th>Descrição</th>
-              <th>Preço Unt.</th>
+              <th class="d-none d-md-table-cell">Imagem</th>
+              <th class="d-none d-md-table-cell">Descrição</th>
+              <th class="d-none d-md-table-cell">Preço Unt.</th>
               <th>Quantidade</th>
               <th>Preço Total</th>
               <th>Ações</th>
@@ -19,9 +19,9 @@
             <tr *ngFor="let item of products; let i = index">
               <td>{{i+1}}</td>
               <td>{{item.name}}</td>
-              <td><img style="width: 120px;" src="/assets/{{item.imageURL}}" alt=""></td>
-              <td style="width: 20%;">{{item.description}}</td>
-              <th >{{item.price}}</th>
+              <td class="d-none d-md-table-cell"><img style="width: 120px;" src="/assets/{{item.imageURL}}" alt=""></td>
+              <td class="d-none d-md-table-cell" style="width: 20%;">{{item.description}}</td>
+              <th class="d-none d-md-table-cell">{{item.price}}</th>
               <td >{{item.quantity}}</td>
               <td >{{item.total}}</td>
               <td>
@@ -29,15 +29,18 @@
               </td>
             </tr>
           </tbody>
-          <tfoot>
-            <tr>
-              <td colspan="4" class=""><strong class="m-auto">Total: R$ {{grandTotal}}</strong></td>
-              <td scope="col"><button (click)="emptyCart()" class="btn btn-danger">Esvaziar carrinho</button></td>
-              <td><button routerLink="/produtos" class="btn btn-primary">Comprar mais</button></td>
-              <td><button class="btn btn-success">Comprar</button></td>
-            </tr>
-          </tfoot>
         </table>
+        <div class="row justify-content-end">
+          <p class="mr-3"><strong class="float-end">Valor Total: R$ {{grandTotal}}</strong></p>
+        </div>
+        <div class="row justify-content-end">
+          <div class="d-flex justify-content-end mr-3 mb-3">
+            <button (click)="emptyCart()" class="btn btn-danger btn-sm mr-2">Esvaziar carrinho</button>
+            <button routerLink="/produtos" class="btn btn-primary btn-sm mr-2">Comprar mais</button>
+            <button class="btn btn-success btn-sm" (click)="openModal(template)">Comprar</button>
+          </div>
+        </div>
+
       <!-- </div> -->
     </div>
   </div>
@@ -47,33 +50,47 @@
   <div class="container">
     <div class="card">
       <h5 class="card-title">Meu Carrinho</h5>
+      <div class="center">
+        <img src="https://rukminim1.flixcart.com/www/800/800/promos/16/05/2019/d438a32e-765a-4d8b-b4a6-520b560971e8.png?q=90"
+          alt="">
+        <h4>Seu carrinho está vazio!</h4>
+        <h6>Adicione produtos</h6>
+        <button routerLink="/produtos" class="btn btn-primary">Ir para produtos</button>
+      </div>
     </div>
-    <div class="center">
-      <img
-        src="https://rukminim1.flixcart.com/www/800/800/promos/16/05/2019/d438a32e-765a-4d8b-b4a6-520b560971e8.png?q=90"
-        alt="">
-      <h4>Seu carrinho está vazio!</h4>
-      <h6>Adicione produtos</h6>
-      <button routerLink="/produtos" class="btn btn-primary">Ir para produtos</button>
-    </div>
+
   </div>
 </ng-container>
 
-<div id="myModal" class="modal fade" aria-hidden="true" style="display: none;">
-  <div class="modal-dialog modal-confirm">
-    <div class="modal-content">
-      <div class="modal-header">
-        <div class="icon-box">
-          <i class="material-icons"></i>
-        </div>
-        <h4 class="modal-title w-100">Awesome!</h4>
-      </div>
-      <div class="modal-body">
-        <p class="text-center">Your booking has been confirmed. Check your email for detials.</p>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-success btn-block" data-dismiss="modal">OK</button>
-      </div>
+<ng-template #template>
+  <div class="modal-header">
+    <h3>Confirmação de Compra</h3>
+  </div>
+  <div class="modal-body text-center">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Nome</th>
+          <th>Qtd.</th>
+          <th>Valor Parcial</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of products; let i = index">
+          <td>{{i+1}}</td>
+          <td>{{item.name}}</td>
+          <td>{{item.quantity}}</td>
+          <td>{{item.total}}</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="row justify-content-end">
+      <p class="mr-3"><strong class="float-end">Valor Total: R$ {{grandTotal}}</strong></p>
+    </div>
+    <div class="float-end">
+      <button type="button" class="btn btn-danger" (click)="decline()">Cancelar</button>
+      <button type="button" class="btn ml-3 mr-2 btn-primary" (click)="confirm()">Confirmar</button>
     </div>
   </div>
-</div>
+</ng-template>

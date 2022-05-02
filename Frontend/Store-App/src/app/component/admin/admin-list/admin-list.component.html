@@ -1,0 +1,60 @@
+<div class="card rounded shadow-sm p-3">
+
+  <div class="d-flex mb-3 justify-content-between">
+    <div>
+      <div class="form-group mb-2">
+        <h3>Produtos</h3>
+      </div>
+    </div>
+    <div>
+      <a class="d-flex btn btn-outline-primary" routerLink="/admin/detail">
+        <i class="fa fa-plus-circle my-1"></i>
+        <b class="ml-1 d-none d-sm-block">Novo</b>
+      </a>
+    </div>
+  </div>
+  <!-- <h3>Filtro: {{filtroLista}}</h3> -->
+  <table class="table table-striped table-hover">
+    <thead class="thead-dark">
+      <tr>
+        <th>#</th>
+        <th class="d-none d-md-table-cell">Imagem</th>
+        <th>Nome</th>
+        <th class="d-none d-md-table-cell">Descrição</th>
+        <th>Custo de Compra</th>
+        <th>Opções</th>
+      </tr>
+    </thead>
+    <tbody *ngIf="products && products.length">
+      <tr *ngFor="let prod of products | filter:searchKey:'name'; let i = index" style="cursor: pointer;" (click)="detailProduct(prod.id)">
+        <td>{{i+1}}</td>
+        <td class="d-none d-md-table-cell">
+          <img src="/assets/{{prod.imageURL}}" [style.width.px]="150" [style.margin.px]="2">
+        </td>
+        <td>{{prod.name}}</td>
+        <td class="d-none d-md-table-cell">{{prod.description}}</td>
+        <td class="d-md-table-cell">{{prod.price}}</td>
+        <td>
+          <button type="button" class="btn btn-danger" (click)="openModal(template2)" tooltip="Excluir">
+            <i class="fa fa-trash"></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+    <tfoot *ngIf="!products.length">
+      <tr>
+        <td colspan="8" class="text-center">
+          <h4>Nenhum produto cadastrado!</h4>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+</div>
+
+<ng-template #template2>
+  <div class="modal-body text-center">
+    <p>Tem certeza que deseja excluir este produto? </p>
+    <button type="button" class="btn btn-primary" (click)="decline()">Cancelar</button>
+    <button type="button" class="btn ml-3 mr-2 btn-danger" (click)="confirm()">Excluir</button>
+  </div>
+</ng-template>

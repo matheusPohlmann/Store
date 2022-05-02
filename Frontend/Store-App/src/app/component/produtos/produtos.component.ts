@@ -10,12 +10,16 @@ import { ProdutoService } from '../../services/produto.service';
 })
 export class ProdutosComponent implements OnInit {
 
-  public productList: any;
+  public productList: any = [];
   public filterCategory: any
   searchKey: string = "";
+  totalItem: any = [];
   constructor(private api: ProdutoService, private cartService: CartService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
+    this.getNumItemsOfCart();
+
+
     this.api.getAllProdutos().subscribe(
       data => {
         this.productList = data;
@@ -28,11 +32,28 @@ export class ProdutosComponent implements OnInit {
 
     this.cartService.search.subscribe((val: any) => {
       this.searchKey = val;
-    })
+    });
   }
+
+  getNumItemsOfCart() {
+    this.cartService.getProducts().subscribe(
+      data => {
+        this.totalItem = data;
+      }
+    )
+  }
+
   addtocart(item: any) {
-    item.quantity = 1;
-    this.cartService.addToCart(item);
+    let idProd = this.totalItem.findIndex((a: any) => a.id == item.id);
+    if (idProd > -1) {
+      this.totalItem[idProd].quantity += 1;
+      this.totalItem[idProd].total = (this.totalItem[idProd].price * this.totalItem[idProd].quantity);
+    }
+    else {
+      item.quantity = 1;
+      this.cartService.addToCart(item);
+    }
+
     this.toastr.success(item.name + " foi adicionado!");
   }
 

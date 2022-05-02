@@ -15,6 +15,9 @@ import { HeaderComponent } from './component/header/header.component';
 import { CartComponent } from './component/cart/cart.component';
 import { FilterPipe } from './shared/filter.pipe';
 import { ToastrModule } from 'ngx-toastr';
+import { AdminComponent } from './component/admin/admin.component';
+import { AdminListComponent } from './component/admin/admin-list/admin-list.component';
+import { AdminDetailComponent } from './component/admin/admin-detail/admin-detail.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +25,9 @@ import { ToastrModule } from 'ngx-toastr';
     ProdutosComponent,
     HeaderComponent,
     CartComponent,
+    AdminComponent,
+    AdminListComponent,
+    AdminDetailComponent,
     FilterPipe
   ],
   imports: [

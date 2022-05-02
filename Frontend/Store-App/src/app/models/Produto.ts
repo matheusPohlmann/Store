@@ -2,7 +2,7 @@ export interface Produto {
   id: number;
   name: string;
   price: number;
-  quantity: number;
+  margemLucroPrcnt: number;
   description: string;
   imageURL: string;
 }

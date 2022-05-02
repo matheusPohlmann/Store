@@ -9,10 +9,8 @@
       <strong style="font-size: 25px;">Store</strong>
     </span>
     <div class="collapse navbar-collapse" id="navbarTogglerDemo03" [collapse]="isCollapsed" [isAnimated]="true" >
-      <form class="d-flex">
         <input id="search" type="text" class="rounded-pill form-control me-2" value="" [(ngModel)]="searchTerm"
         (keyup.enter)="search($event)" placeholder="Press enter to search">
-      </form>
     </div>
     <button class="btn btn-primary mr-0" routerLink="carrinho">
       <i style="font-size: 25px;" class="fas fa-cart-plus"></i>
