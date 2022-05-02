@@ -11,5 +11,6 @@ namespace Store.Persistence
     {
         public StoreContext(DbContextOptions<StoreContext> options) : base(options) { }
         public DbSet<Produto> Produtos { get; set; }
+        public DbSet<Param> Params { get; set; }
     }
 }

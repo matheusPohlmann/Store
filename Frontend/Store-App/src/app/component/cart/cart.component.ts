@@ -40,6 +40,10 @@ export class CartComponent implements OnInit {
     this.cartService.getProducts().subscribe(
       data => {
         this.products = data;
+        this.products.forEach((a: any) => {
+          a.finalPrice = Math.round(a.finalPrice).toFixed(2);
+          a.total = Math.round(a.total).toFixed(2);
+        });
         this.grandTotal = this.cartService.getTotalPrice();
       }
     )

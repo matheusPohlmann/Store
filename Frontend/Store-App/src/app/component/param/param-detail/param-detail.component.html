@@ -1,0 +1,37 @@
+<div class="container">
+  <div class="card rounded shadow-sm mt-4">
+    <form [formGroup]="form">
+      <div class="p-3">
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label>% Margem de Lucro:</label>
+            <input type="text" [ngClass]="{ 'is-invalid': f.margemLucroPrcnt?.errors && f.margemLucroPrcnt?.touched }"
+              class="form-control is-invalid" formControlName="margemLucroPrcnt" placeholder="Insira o Nome">
+            <div *ngIf="f.margemLucroPrcnt?.errors?.required" class="invalid-feedback">
+              Nome é obrigatório
+            </div>
+          </div>
+          <div class="form-group col-md-6">
+            <label>Despesas Totais:</label>
+            <input type="text" [ngClass]="{ 'is-invalid': f.despesasTotais?.errors && f.despesasTotais?.touched }"
+              class="form-control is-invalid" formControlName="despesasTotais" placeholder="Insira o Nome">
+            <div *ngIf="f.despesasTotais?.errors?.required" class="invalid-feedback">
+              Nome é obrigatório
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <div class="d-flex">
+          <button class="btn btn-outline-secondary mr-auto border" (click)="resetForm()">
+            Cancelar Alteração
+          </button>
+          <button class="btn btn-success" [disabled]="!form.valid" (click)="salvarAlteracao()">
+
+            Salvar Evento
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

@@ -17,6 +17,7 @@ export class AdminListComponent implements OnInit {
   searchKey: string = "";
   modalRef?: BsModalRef;
   message?: string;
+  public produtoId = 0;
 
   constructor(
     private productCompenent: ProdutoService,
@@ -26,7 +27,9 @@ export class AdminListComponent implements OnInit {
     private router: Router
   ) { }
 
-  openModal(template: TemplateRef<any>) {
+  openModal(event: any, template: TemplateRef<any>, produtoId: number): void {
+    event.stopPropagation();
+    this.produtoId = produtoId;
     this.modalRef = this.modalService.show(
       template,
       {
@@ -37,9 +40,19 @@ export class AdminListComponent implements OnInit {
   }
 
   confirm(): void {
-    this.message = 'Confirmed!';
     this.modalRef?.hide();
-    this.toastr.success("Parabéns! Compra realizada com sucesso!")
+    this.productCompenent.delete(this.produtoId).subscribe(
+      (data: any) => {
+        if (data.message === 'Deletado') {
+          this.toastr.success('O Produto foi deletado com sucesso!', 'Deletado!');
+          this.getProdutos();
+        }
+      },
+      (error: any) => {
+        this.toastr.error('Erro ao tentar deletar o produto', 'Erro');
+      }
+    )
+
   }
 
   decline(): void {

@@ -1,70 +1,82 @@
-<div class="container">
-  <div class="card rounded shadow-sm mt-4">
-    <form [formGroup]="form">
-      <div class="p-3">
-        <div class="form-row">
-          <div class="form-group col-md-6">
-            <label>Nome:</label>
-            <input type="text" [ngClass]="{ 'is-invalid': f.name?.errors && f.name?.touched }" class="form-control is-invalid" formControlName="name" placeholder="Insira o Nome">
-            <div *ngIf="f.name?.errors?.required" class="invalid-feedback">
-              Nome é obrigatório
+<div class="row">
+  <div [ngClass]="{'col-md-8 pr-0': modoEditar, 'col-md-12': !modoEditar}">
+    <div class="card rounded shadow-sm mt-4">
+      <form [formGroup]="form">
+        <div class="p-3">
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label>Nome:</label>
+              <input type="text" [ngClass]="{ 'is-invalid': f.name?.errors && f.name?.touched }"
+                class="form-control is-invalid" formControlName="name" placeholder="Insira o Nome">
+              <div *ngIf="f.name?.errors?.required" class="invalid-feedback">
+                Nome é obrigatório
+              </div>
+              <div *ngIf="f.name?.errors?.minlength" class="invalid-feedback">
+                Nome deve ter no mínimo 4 caracteres
+              </div>
+              <div *ngIf="f.name?.errors?.maxlength" class="invalid-feedback">
+                Nome deve ter no máximo 50 caracteres
+              </div>
             </div>
-            <div *ngIf="f.name?.errors?.minlength" class="invalid-feedback">
-              Nome deve ter no mínimo 4 caracteres
-            </div>
-            <div *ngIf="f.name?.errors?.maxlength" class="invalid-feedback">
-              Nome deve ter no máximo 50 caracteres
-            </div>
-          </div>
-          <div class="form-group col-md-6">
-            <label>Custo de Compra:</label>
-            <input type="number" [ngClass]="{ 'is-invalid': f.price?.errors && f.price?.touched }" class="form-control is-invalid" formControlName="price" placeholder="">
-            <div *ngIf="f.price?.errors?.required" class="invalid-feedback">
-              Custo de Compra é obrigatório
-            </div>
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group col-md-12">
-            <div class="row">
-              <label class="col-6">Descrição:</label>
-              <div class="col-6"><small class="float-end mb-0" style="margin-top: 12px;">100/200</small></div>
-            </div>
-            <textarea [ngClass]="{ 'is-invalid': f.description?.errors && f.description?.touched }" class="form-control is-invalid" formControlName="description" placeholder="Coloque aqui uma breve descrição do produto. máximo 200 caracteres." id="floatingTextarea2"
-              style="height: 100px" maxlength="200"></textarea>
-            <div *ngIf="f.description?.errors?.required" class="invalid-feedback">
-              Descrição é obrigatória
-            </div>
-            <div *ngIf="f.description?.errors?.maxlength" class="invalid-feedback">
-              Descrição deve ter no máximo 200 caracteres
+            <div class="form-group col-md-6">
+              <label>Custo de Compra:</label>
+              <input type="number" [ngClass]="{ 'is-invalid': f.price?.errors && f.price?.touched }"
+                class="form-control is-invalid" formControlName="price" placeholder="">
+              <div *ngIf="f.price?.errors?.required" class="invalid-feedback">
+                Custo de Compra é obrigatório
+              </div>
             </div>
           </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group col-md-8">
-            <label>Imagem</label>
-            <input type="text" [ngClass]="{ 'is-invalid': f.imageURL?.errors && f.imageURL?.touched }" class="form-control is-invalid" formControlName="imageURL" placeholder="">
-            <div *ngIf="f.imageURL?.errors?.required" class="invalid-feedback">
-              Descrição é obrigatório
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <div class="row">
+                <label class="col-6">Descrição:</label>
+                <div class="col-6"><small class="float-end mb-0" style="margin-top: 12px;">100/200</small></div>
+              </div>
+              <textarea [ngClass]="{ 'is-invalid': f.description?.errors && f.description?.touched }"
+                class="form-control is-invalid" formControlName="description"
+                placeholder="Coloque aqui uma breve descrição do produto. máximo 200 caracteres." id="floatingTextarea2"
+                style="height: 100px" maxlength="200"></textarea>
+              <div *ngIf="f.description?.errors?.required" class="invalid-feedback">
+                Descrição é obrigatória
+              </div>
+              <div *ngIf="f.description?.errors?.maxlength" class="invalid-feedback">
+                Descrição deve ter no máximo 200 caracteres
+              </div>
             </div>
-          </div>
-          <div class="form-group col-md-4">
-            <label>Margem de Lucro</label>
-            <input type="number" class="form-control" placeholder="">
           </div>
         </div>
-      </div>
-      <div class="card-footer">
-        <div class="d-flex">
-          <button class="btn btn-outline-secondary mr-auto border">
-            Cancelar Alteração
-          </button>
-          <button class="btn btn-success" [disabled]="!form.valid">
-            <!-- <span class="spinner-border spinner-border-sm mr-1"></span> -->
-            Salvar Evento
-          </button>
+        <div class="card-footer">
+          <div class="d-flex">
+            <button class="btn btn-outline-secondary mr-auto border">
+              Cancelar Alteração
+            </button>
+            <button class="btn btn-success" [disabled]="!form.valid" (click)="salvarAlteracao()">
+
+              Salvar Evento
+            </button>
+          </div>
         </div>
-      </div>
-    </form>
+      </form>
+    </div>
   </div>
+  <div class="col-md-4 mt-4" *ngIf="modoEditar">
+    <div [formGroup]="form" class="card-evento-view shadow-sm">
+      <div class="form-row">
+        <div class="form-group m-0">
+          <input type="file" #file (change)="onFileChange($event)"  class="form-control is-invalid" placeholder=""
+            style="display: none">
+        </div>
+      </div>
+      <div class="card profile-card-2">
+        <div class="card-img-block">
+          <img class="image" [src]="imageURL" class="img-fluid" (click)="file.click()" alt="Card image cap"
+            tooltip="Uplaod de Nova Imagem" placement="bottom" />
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+<div class="container">
+
 </div>

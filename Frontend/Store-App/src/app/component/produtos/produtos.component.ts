@@ -25,7 +25,8 @@ export class ProdutosComponent implements OnInit {
         this.productList = data;
         this.filterCategory = data;
         this.productList.forEach((a: any) => {
-          Object.assign(a, { quantity: 1, total: a.price });
+          Object.assign(a, { quantity: 1, total: a.finalPrice });
+          a.finalPrice = Math.round(a.finalPrice).toFixed(2);
         });
         console.log(this.productList)
       });
@@ -47,7 +48,7 @@ export class ProdutosComponent implements OnInit {
     let idProd = this.totalItem.findIndex((a: any) => a.id == item.id);
     if (idProd > -1) {
       this.totalItem[idProd].quantity += 1;
-      this.totalItem[idProd].total = (this.totalItem[idProd].price * this.totalItem[idProd].quantity);
+      this.totalItem[idProd].total = (this.totalItem[idProd].finalPrice * this.totalItem[idProd].quantity);
     }
     else {
       item.quantity = 1;

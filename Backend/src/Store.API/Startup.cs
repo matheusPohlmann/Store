@@ -15,6 +15,10 @@ using Microsoft.OpenApi.Models;
 using Store.Application;
 using Store.Application.Contratos;
 using Store.Persistence;
+using AutoMapper;
+using System.IO;
+using Microsoft.Extensions.FileProviders;
+using Microsoft.AspNetCore.Http;
 
 namespace Store.API
 {
@@ -35,9 +39,14 @@ namespace Store.API
             );
             services.AddControllers();
 
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
             services.AddScoped<IProdutoService, ProdutoService>();
+            services.AddScoped<IParamService, ParamService>();
+
             services.AddScoped<IGeralPersist, GeralPersist>();
             services.AddScoped<IProdutoPersist, ProdutoPersist>();
+            services.AddScoped<IParamPersist, ParamPersist>();
 
             services.AddCors();
             services.AddSwaggerGen(c =>
@@ -65,6 +74,13 @@ namespace Store.API
             app.UseCors(x => x.AllowAnyHeader()
                               .AllowAnyMethod()
                               .AllowAnyOrigin());
+
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Resources")),
+                RequestPath = new PathString("/Resources")
+
+            });
 
             app.UseEndpoints(endpoints =>
             {

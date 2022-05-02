@@ -18,6 +18,8 @@ import { ToastrModule } from 'ngx-toastr';
 import { AdminComponent } from './component/admin/admin.component';
 import { AdminListComponent } from './component/admin/admin-list/admin-list.component';
 import { AdminDetailComponent } from './component/admin/admin-detail/admin-detail.component';
+import { ParamComponent } from './component/param/param.component';
+import { ParamDetailComponent } from './component/param/param-detail/param-detail.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +30,8 @@ import { AdminDetailComponent } from './component/admin/admin-detail/admin-detai
     AdminComponent,
     AdminListComponent,
     AdminDetailComponent,
+    ParamComponent,
+    ParamDetailComponent,
     FilterPipe
   ],
   imports: [
